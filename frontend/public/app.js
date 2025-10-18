@@ -129,9 +129,17 @@
   // Socket
   function connectSocket(token) {
     try {
-      socket = io(CHAT_URL, { transports: ['websocket'], auth: { token } });
+      socket = io({
+      path: SOCKET_PATH,
+      transports: ['websocket'],
+      auth: { token },
+      reconnection: true
+    });
 
-      socket.on('connect', () => {});
+    socket.on('connect', () => {
+      console.log('socket connected', socket.id);
+      elStatus.textContent = '';
+    });
 
       // DM history
       socket.on('chat:history', (payload) => {
