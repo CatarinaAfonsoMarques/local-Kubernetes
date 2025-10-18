@@ -1,0 +1,20 @@
+{
+  "name": "chat-service",
+  "version": "1.0.0",
+  "description": "Simple chat service with Socket.IO",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.9.0",
+    "socket.io": "^4.7.5",
+    "uuid": "^9.0.1"
+  }
+}

@@ -1,0 +1,64 @@
+#version: "5"
+
+services:
+  mongo:
+    image: mongo:6
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+
+  auth-service:
+    build: ./auth-service
+    restart: unless-stopped
+    environment:
+      - PORT=3001
+      - JWT_SECRET=${JWT_SECRET:-dev-secret}
+      - MONGO_URL=mongodb://mongo:27017/chatapp_auth
+    depends_on:
+      - mongo
+    ports:
+      - "3001:3001"
+
+  chat-service:
+    build: ./chat-service
+    restart: unless-stopped
+    environment:
+      - PORT=3002
+      - JWT_SECRET=${JWT_SECRET:-dev-secret}
+      - MONGO_URL=mongodb://mongo:27017/chatapp_chat
+      - AUTH_URL=http://auth-service:3001
+      - CORS_ORIGIN=*
+      - SOCKET_IO_PATH=/socket.io
+    depends_on:
+      - mongo
+    ports:
+      - "3002:3002"
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    environment:
+      - PORT=3000
+      - AUTH_URL=/auth
+      - CHAT_URL=/chat
+      - SOCKET_PATH=/chat/socket.io
+    depends_on:
+      - auth-service
+      - chat-service
+    ports:
+      - "3000:3000"
+
+  mongo-express:
+    image: mongo-express:1
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_URL: "mongodb://mongo:27017/?directConnection=true"
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+      ME_CONFIG_BASICAUTH: "false"
+
+volumes:
+  mongo-data:

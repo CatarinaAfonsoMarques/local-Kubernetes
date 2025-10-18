@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Simple Chat App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Simple Chat</h1>
+
+    <div id="auth-section">
+      <div class="card">
+        <h2>Register</h2>
+        <input id="reg-username" placeholder="Username" />
+        <input id="reg-password" type="password" placeholder="Password" />
+        <button id="btn-register">Register</button>
+        <div id="reg-msg" class="msg"></div>
+      </div>
+
+      <div class="card">
+        <h2>Login</h2>
+        <input id="login-username" placeholder="Username" />
+        <input id="login-password" type="password" placeholder="Password" />
+        <button id="btn-login">Login</button>
+        <div id="login-msg" class="msg"></div>
+      </div>
+    </div>
+
+    <div id="chat-section" class="hidden">
+      <div class="row">
+        <span>Logged in as: <strong id="me-name"></strong></span>
+        <button id="btn-logout" class="danger">Logout</button>
+      </div>
+
+      <div class="layout">
+        <aside class="sidebar card">
+          <div class="row">
+            <h2 style="margin:0;">Conversations</h2>
+            <button id="btn-refresh" title="Refresh">↻</button>
+          </div>
+          <div id="conv-list" class="conv-list"></div>
+
+          <hr style="border-color:#1f2937; margin:1rem 0;" />
+
+          <div class="row">
+            <h2 style="margin:0;">Groups</h2>
+          </div>
+          <div class="msg" id="group-status"></div>
+          <div class="group-create">
+            <input id="group-name" placeholder="New group name" />
+            <button id="btn-create-group">Create</button>
+          </div>
+          <div id="group-list" class="conv-list"></div>
+
+          <div class="group-member card" id="member-controls" style="margin-top:1rem;">
+            <div class="row">
+              <div>Add member to current group</div>
+            </div>
+            <input id="member-username" placeholder="username (e.g., user3)" />
+            <button id="btn-add-member">Add member</button>
+            <div class="msg" id="member-status"></div>
+          </div>
+        </aside>
+
+        <main class="main">
+          <div class="card">
+            <div class="row">
+              <div>
+                <label for="peer-input">DM with:</label>
+                <input id="peer-input" placeholder="username (e.g., user2)" />
+              </div>
+              <div>
+                <button id="btn-open">Open DM</button>
+              </div>
+            </div>
+            <div class="msg" id="chat-status"></div>
+            <div class="msg">Current chat: <strong id="chat-title">None</strong></div>
+          </div>
+
+          <div id="messages" class="messages"></div>
+
+          <div class="composer">
+            <input id="msg-input" placeholder="Type a message..." />
+            <button id="btn-send">Send</button>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <script src="/env.js"></script>
+  <script
+    src="https://cdn.socket.io/4.7.5/socket.io.min.js"
+    integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO"
+    crossorigin="anonymous"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
